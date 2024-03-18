@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Home - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addBook">addBook</a></li><li><a href="global.html#createBook">createBook</a></li><li><a href="global.html#deleteBook">deleteBook</a></li><li><a href="global.html#deleteCustomer">deleteCustomer</a></li><li><a href="global.html#deleteEmployee">deleteEmployee</a></li><li><a href="global.html#getBookData">getBookData</a></li><li><a href="global.html#getCustomerData">getCustomerData</a></li><li><a href="global.html#getCustomerDataUnique">getCustomerDataUnique</a></li><li><a href="global.html#getEmployeeData">getEmployeeData</a></li><li><a href="global.html#registerCustomer">registerCustomer</a></li><li><a href="global.html#registerEmployee">registerEmployee</a></li><li><a href="global.html#registerLoan">registerLoan</a></li><li><a href="global.html#updateBook">updateBook</a></li><li><a href="global.html#updateCustomer">updateCustomer</a></li><li><a href="global.html#updateEmployee">updateEmployee</a></li><li><a href="global.html#updateStatus">updateStatus</a></li><li><a href="global.html#validateLogin">validateLogin</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+    <section class="package">
+        <h3> </h3>		
+    </section>
+
+
+
+
+
+
+
+
+
+    
+
+
+
+    <section class="readme usertext">
+        <article><h1>Biblioteca Municipal - Gestión de Libros, Empleados y Préstamos</h1>
+<p>Este proyecto es una API RestFull desarrollada en Node.js con el framework Express. Su objetivo principal es ayudar a la gestión de libros, empleados y préstamos en una biblioteca municipal. Proporciona un sistema completo de CRUD (Crear, Leer, Actualizar y Eliminar) para administrar los datos asociados a los empleados, libros y servicios de la biblioteca.</p>
+<h1>Consideraciones de despliegue</h1>
+<h2>Contexto</h2>
+<p>La biblioteca municipal es administrada por una persona encargada de gestionar los empleados y los libros disponibles. A continuación se detallan los principales elementos a tener en cuenta:</p>
+<h2>Empleados</h2>
+<p>Los empleados de la biblioteca son registrados y gestionados mediante el sistema. Cada empleado tiene la siguiente información asociada:</p>
+<ul>
+<li>Nombres</li>
+<li>Apellidos</li>
+<li>Fecha de nacimiento</li>
+<li>Teléfono</li>
+<li>Usuario y contraseña</li>
+<li>Es importante destacar que los empleados deben ser mayores de edad para poder registrarse en el sistema.</li>
+</ul>
+<h2>Libros</h2>
+<p>Los libros disponibles en la biblioteca se registran y gestionan mediante el sistema. Cada libro tiene los siguientes datos:</p>
+<ul>
+<li>ISBN (International Standard Book Number)</li>
+<li>Nombre</li>
+<li>Autor</li>
+<li>Género (Ficción, Drama, Comedia, Ciencia Ficción, etc.)</li>
+<li>Número de copias disponibles</li>
+<li>Fecha de publicación</li>
+<li>Multa diaria</li>
+</ul>
+<h2>Préstamos</h2>
+<p>Los empleados registrados podrán iniciar sesión en el sistema y realizar préstamos de libros a los usuarios registrados. Para realizar un préstamo, se deben tener en cuenta las siguientes condiciones:</p>
+<ul>
+<li>El préstamo solo se realizará a usuarios registrados.</li>
+<li>El usuario debe cumplir con la calificación de edad requerida para el libro solicitado (+4, +5, +18).</li>
+<li>El usuario no debe tener más de 2 libros con multas.</li>
+<li>Se registrarán la fecha de préstamo y la fecha de regreso (8 días después de la fecha de préstamo).</li>
+<li>La multa se calculará en base a una tarifa diaria establecida para cada libro.</li>
+<li>Además, los empleados también podrán recibir los libros prestados y cambiar el estado del préstamo a &quot;terminado&quot; cuando los usuarios devuelvan los libros.</li>
+</ul>
+<h2>Usuarios</h2>
+<p>Los usuarios registrados podrán iniciar sesión en el sistema y acceder a sus préstamos activos y su historial de libros solicitados. Esto les permitirá verificar si tienen multas pendientes.</p>
+<h2>Estructura proyecto</h2>
+<ul>
+<li>
+<p>El proyecto sigue una estructura de directorios recomendada para una aplicación Node.js con Express. A continuación se describe brevemente cada uno de los directorios principales:</p>
+</li>
+<li>
+<p><strong>controllers</strong>: Contiene los controladores de la aplicación que manejan la lógica de negocio y las interacciones con los modelos de datos.</p>
+</li>
+<li>
+<p><strong>models</strong>: Contiene los modelos de datos de la aplicación que se utilizan para interactuar con la base de datos.</p>
+</li>
+<li>
+<p><strong>routes</strong>: Contiene las definiciones de las rutas de la aplicación que manejan las solicitudes HTTP y llaman a los controladores correspondientes.</p>
+</li>
+<li>
+<p><strong>services</strong>: Contiene los servicios de la aplicación que encapsulan la lógica de negocio y se utilizan para realizar operaciones más complejas que no pertenecen estrictamente a los controladores.</p>
+</li>
+<li>
+<p><strong>app.js</strong>: El archivo principal de la aplicación que configura y arranca el servidor Express.</p>
+</li>
+<li>
+<p><strong>package.json</strong>: El archivo de configuración del proyecto que contiene las dependencias, scripts y otra información relevante.</p>
+</li>
+</ul>
+<h2>Dependencias principales</h2>
+<p>El proyecto utiliza las siguientes dependencias principales:</p>
+<ul>
+<li>Express: Framework web rápido y minimalista para Node.js.</li>
+<li>Cors: Middleware que proporciona compatibilidad con CORS (Cross-Origin Resource Sharing) en Express, permitiendo que tu servidor acepte solicitudes HTTP desde dominios diferentes al dominio del servidor. Es especialmente útil cuando tienes una API que es consumida desde un cliente en un dominio distinto.</li>
+<li>Dotenv: Módulo que facilita la carga de variables de entorno desde archivos .env. Las variables de entorno son especialmente útiles para almacenar información sensible o configuraciones específicas para diferentes entornos (como credenciales de bases de datos, claves de API, etc.) y permiten que tu aplicación sea más segura y configurable.</li>
+<li>Mongoose: Biblioteca de modelado de objetos MongoDB para Node.js que proporciona una forma sencilla y flexible de interactuar con bases de datos MongoDB. Mongoose permite definir esquemas y modelos para tus datos y proporciona una API para realizar consultas y operaciones en la base de datos.</li>
+</ul>
+<h2>Consideraciones finales</h2>
+<p>Este proyecto es de carácter acádemico para poner en práctica los conocimientos adquiridos durante el desarrollo de las primeras semanas del curso de desarrollo de software - Electiva II.
+Realizado por:</p>
+<ul>
+<li>Andrés Iván Sierra Espinel</li>
+<li>Hovar Steven Rincón Vianchá</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Wed Aug 02 2023 14:40:47 GMT-0500 (hora estándar de Colombia) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

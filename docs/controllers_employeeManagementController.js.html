@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>controllers/employeeManagementController.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addBook">addBook</a></li><li><a href="global.html#createBook">createBook</a></li><li><a href="global.html#deleteBook">deleteBook</a></li><li><a href="global.html#deleteCustomer">deleteCustomer</a></li><li><a href="global.html#deleteEmployee">deleteEmployee</a></li><li><a href="global.html#getBookData">getBookData</a></li><li><a href="global.html#getCustomerData">getCustomerData</a></li><li><a href="global.html#getCustomerDataUnique">getCustomerDataUnique</a></li><li><a href="global.html#getEmployeeData">getEmployeeData</a></li><li><a href="global.html#registerCustomer">registerCustomer</a></li><li><a href="global.html#registerEmployee">registerEmployee</a></li><li><a href="global.html#registerLoan">registerLoan</a></li><li><a href="global.html#updateBook">updateBook</a></li><li><a href="global.html#updateCustomer">updateCustomer</a></li><li><a href="global.html#updateEmployee">updateEmployee</a></li><li><a href="global.html#updateStatus">updateStatus</a></li><li><a href="global.html#validateLogin">validateLogin</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">controllers/employeeManagementController.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const User = require("../models/User");
+
+/**
+ * The function `getEmployeeData` retrieves employee data from the database and formats it into an
+ * array of objects.
+ * @returns The function `getEmployeeData` returns an array of formatted employee objects.
+ */
+const getEmployeeData = async () => {
+  try {
+    const employees = await User.find({ "employee.rol": "employee" });
+    const formattedEmployees = employees.map((user) => {
+      const { _id, email, employee } = user;
+      return {
+        _id,
+        username: email,
+        ...employee._doc,
+      };
+    });
+    return formattedEmployees;
+  } catch (error) {
+    return [];
+  }
+};
+
+/**
+ * The function `registerEmployee` is used to register a new employee with their personal information
+ * and validate their age.
+ * @param name - The first name of the employee.
+ * @param lastName - The `lastName` parameter is a string that represents the last name of the employee
+ * being registered.
+ * @param documentType - The documentType parameter represents the type of document that the employee
+ * is providing for identification purposes. It could be a passport, driver's license, national ID
+ * card, etc.
+ * @param documentNumber - The documentNumber parameter is the identification number of the employee,
+ * such as a passport number or national ID number.
+ * @param birthday - The birthday parameter is the date of birth of the employee.
+ * @param cellphone - The cellphone parameter is the employee's cellphone number.
+ * @param address - The address parameter is a string that represents the employee's address.
+ * @param email - The email parameter is the email address of the employee being registered.
+ * @param password - The password parameter is the password that the employee will use to log in to
+ * their account.
+ */
+const registerEmployee = async (
+  name,
+  lastName,
+  documentType,
+  documentNumber,
+  birthday,
+  cellphone,
+  address,
+  email,
+  password
+) => {
+  try {
+    const currentDate = new Date();
+    const birthdayDate = new Date(birthday);
+    const ageDifferenceInMs = currentDate - birthdayDate;
+    const ageInYears = ageDifferenceInMs / (1000 * 60 * 60 * 24 * 365.25);
+    if (ageInYears &lt; 18) {
+      throw new Error("The employee must be older than 18");
+    }
+
+    await User.create({
+      email: email,
+      employee: {
+        password: password,
+        rol: "employee",
+        name: name,
+        lastName: lastName,
+        documentType: documentType,
+        documentNumber: documentNumber,
+        cellphone: cellphone,
+        address: address,
+        birthday: birthday,
+      },
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * The function `updateEmployee` updates the information of an employee in a database based on their
+ * email.
+ * @param name - The first name of the employee.
+ * @param lastName - The `lastName` parameter is the last name of the employee.
+ * @param documentType - The document type of the employee, such as "ID card", "passport", "driver's
+ * license", etc.
+ * @param documentNumber - The documentNumber parameter is the unique identification number of the
+ * employee's document, such as a national identification number or passport number.
+ * @param birthday - The birthday parameter is the date of birth of the employee.
+ * @param cellphone - The `cellphone` parameter is the new cellphone number of the employee.
+ * @param address - The address parameter is a string that represents the employee's address.
+ * @param email - The email parameter is the email address of the employee whose information needs to
+ * be updated.
+ */
+const updateEmployee = async (
+  name,
+  lastName,
+  documentType,
+  documentNumber,
+  birthday,
+  cellphone,
+  address,
+  email
+) => {
+  try {
+    const user = await User.findOne({
+      email: email,
+      "employee.rol": "employee",
+    });
+
+    if (user) {
+      user.employee.name = name;
+      user.employee.lastName = lastName;
+      user.employee.documentType = documentType;
+      user.employee.documentNumber = documentNumber;
+      user.employee.birthday = birthday;
+      user.employee.cellphone = cellphone;
+      user.employee.address = address;
+      await user.save();
+    } else {
+      throw new Error("User doesnt exist");
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * The deleteEmployee function deletes an employee from the database by their ID.
+ * @param id - The `id` parameter is the unique identifier of the employee that you want to delete from
+ * the database.
+ * @returns If the user is found and successfully deleted, nothing is returned. If the user is not
+ * found, an error is thrown with the message "User doesnt exist".
+ */
+const deleteEmployee = async (id) => {
+  try {
+    const user = await User.findByIdAndRemove(id);
+
+    if (user) {
+      return;
+    } else {
+      throw new Error("User doesnt exist");
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = {
+  getEmployeeData,
+  registerEmployee,
+  deleteEmployee,
+  updateEmployee,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Wed Aug 02 2023 14:40:47 GMT-0500 (hora estándar de Colombia) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
